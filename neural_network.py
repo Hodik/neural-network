@@ -1,8 +1,8 @@
 import numpy as np
 
-from .layer import Layer
-from .cost import cost
-from .data import LayerLearnData, NetworkLearnData
+from layer import Layer
+from cost import cost
+from data import LayerLearnData, NetworkLearnData
 
 
 class NeuralNetwork:

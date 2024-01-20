@@ -1,8 +1,8 @@
 import numpy as np
 
-from .data import LayerLearnData
-from .activation import sigmoid
-from .operation import Operation
+from data import LayerLearnData
+from activation import sigmoid
+from operation import Operation
 from typing import Self
 
 

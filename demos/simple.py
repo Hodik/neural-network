@@ -1,5 +1,5 @@
 import numpy as np
-from src.neural_network import NeuralNetwork
+from neural_network import NeuralNetwork
 
 n = NeuralNetwork([3, 4, 4, 1])
 x = np.array([[2.0, 3.0, -1.0], [3.0, -1.0, 0.5], [0.5, 1.0, 1.0], [1.0, 1.0, -1.0]])
