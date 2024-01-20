@@ -112,3 +112,28 @@ class NeuralNetwork:
                 "Cost: ",
                 np.sum(self.cost.forward(yped[i], y[i]) for i in range(len(x))),
             )
+
+    def evaluate(self, x, y):
+        """
+        Evaluates the performance of the neural network on the given inputs and expected outputs.
+
+        Args:
+            x: The input data for evaluation.
+            y: The expected outputs for the input data.
+
+        Returns:
+            float: The accuracy of the neural network on the evaluation data.
+        """
+        correct = 0
+        total = len(x)
+
+        for i in range(total):
+            outputs = self.calculate_outputs(x[i])
+            predicted_class = np.argmax(outputs)
+            expected_class = np.argmax(y[i])
+
+            if predicted_class == expected_class:
+                correct += 1
+
+        accuracy = correct / total
+        return f"Accuracy: {accuracy}"
