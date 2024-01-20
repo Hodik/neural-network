@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-setup.py
-demos/__init__.py
-demos/simple.py
-neural_network.egg-info/PKG-INFO
-neural_network.egg-info/SOURCES.txt
-neural_network.egg-info/dependency_links.txt
-neural_network.egg-info/top_level.txt

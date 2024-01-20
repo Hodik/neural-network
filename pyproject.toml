@@ -1,5 +1,5 @@
 [project]
-name = "neural_network"
+name = "nn"
 version = "0.0.1"
 authors = [
   { name="Denis kh", email="d.khodishchenko@gmail.com" },
