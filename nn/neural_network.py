@@ -108,6 +108,7 @@ class NeuralNetwork:
             for l in self.layers:
                 l.apply_gradients(learning_rate=learning_rate)
             yped = [self.calculate_outputs(x[i]) for i in range(len(x))]
+            print("Predicted: ", yped, "expected: ", y)
             print(
                 "Cost: ",
                 np.sum(self.cost.forward(yped[i], y[i]) for i in range(len(x))),

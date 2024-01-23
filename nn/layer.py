@@ -16,7 +16,7 @@ class Layer:
             n_out (int): Number of output nodes.
             activation (Operation, optional): Activation function to be used. Defaults to None.
         """
-        self.activation = activation or tanh
+        self.activation = activation or sigmoid
         self.n_in = n_in
         self.n_out = n_out
         self.weights = np.random.randn(n_in, n_out) * np.sqrt(2 / n_in)
