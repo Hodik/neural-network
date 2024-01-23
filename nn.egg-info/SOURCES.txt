@@ -3,7 +3,16 @@ pyproject.toml
 setup.py
 demos/__init__.py
 demos/simple.py
+nn/__init__.py
+nn/accuracy.py
+nn/activation.py
+nn/cost.py
+nn/data.py
+nn/layer.py
+nn/neural_network.py
+nn/operation.py
 nn.egg-info/PKG-INFO
 nn.egg-info/SOURCES.txt
 nn.egg-info/dependency_links.txt
 nn.egg-info/top_level.txt
+tests/__init__.py

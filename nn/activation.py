@@ -1,5 +1,5 @@
 import numpy as np
-from operation import Operation
+from .operation import Operation
 
 
 class sigmoid(Operation):
@@ -52,11 +52,14 @@ class softmax(Operation):
 
     @staticmethod
     def forward(x):
-        return np.exp(x) / np.sum(np.exp(x), axis=0)
+        e_x = np.exp(x - np.max(x))
+        return e_x / e_x.sum(axis=0)
 
     @staticmethod
     def backward(x):
-        return softmax.forward(x) * (1 - softmax.forward(x))
+        exp_inputs = np.exp(x - np.max(x))
+        exp_sum = exp_inputs.sum(axis=0)
+        return (exp_inputs * exp_sum - exp_inputs**2) / (exp_sum**2)
 
 
 class relu(Operation):
@@ -85,3 +88,33 @@ class relu(Operation):
     @staticmethod
     def backward(x):
         return np.where(x <= 0, 0, 1)
+
+
+class tanh(Operation):
+    """
+    Implements the Rectified Linear Unit (ReLU) activation function.
+
+    Args:
+        x (numpy.ndarray): Input array.
+
+    Returns:
+        numpy.ndarray: Output array after applying ReLU activation.
+
+    Examples:
+        >>> x = np.array([-1, 0, 1])
+        >>> relu.forward(x)
+        array([0, 0, 1])
+
+    References:
+        - ReLU Activation Function: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+    """
+
+    @staticmethod
+    def forward(x):
+        return (np.exp(2 * x) - 1) / (np.exp(2 * x) + 1)
+
+    @staticmethod
+    def backward(x):
+        e2 = np.exp(2 * x)
+        t = (e2 - 1) / (e2 + 1)
+        return 1 - t * t

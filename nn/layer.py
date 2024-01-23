@@ -1,8 +1,8 @@
 import numpy as np
 
-from data import LayerLearnData
-from activation import sigmoid
-from operation import Operation
+from .data import LayerLearnData
+from .activation import relu, sigmoid, tanh
+from .operation import Operation
 from typing import Self
 
 
@@ -16,11 +16,11 @@ class Layer:
             n_out (int): Number of output nodes.
             activation (Operation, optional): Activation function to be used. Defaults to None.
         """
-        self.activation = activation or sigmoid
+        self.activation = activation or tanh
         self.n_in = n_in
         self.n_out = n_out
-        self.weights = np.random.uniform(-1, 1, size=(n_in, n_out))
-        self.biases = np.random.uniform(-1, 1, size=n_out)
+        self.weights = np.random.randn(n_in, n_out) * np.sqrt(2 / n_in)
+        self.biases = np.random.randn(n_out) * np.sqrt(2 / n_in)
         self.gradW = np.zeros(self.weights.shape)
         self.gradB = np.zeros(self.biases.shape)
 

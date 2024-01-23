@@ -1,8 +1,8 @@
 import numpy as np
 
-from layer import Layer
-from cost import cost
-from data import LayerLearnData, NetworkLearnData
+from .layer import Layer
+from .cost import MeanSquaredCost, CrossEntropyCost
+from .data import LayerLearnData, NetworkLearnData
 
 
 class NeuralNetwork:
@@ -23,7 +23,7 @@ class NeuralNetwork:
         learn(x, y, learning_rate=0.1, epochs=100): Trains the neural network using the given inputs and expected outputs.
     """
 
-    def __init__(self, layer_sizes) -> None:
+    def __init__(self, layer_sizes, cost=MeanSquaredCost) -> None:
         self.layers: list[Layer] = []
         for i in range(len(layer_sizes) - 1):
             self.layers.append(Layer(layer_sizes[i], layer_sizes[i + 1]))
