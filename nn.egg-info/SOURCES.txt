@@ -15,4 +15,6 @@ nn.egg-info/PKG-INFO
 nn.egg-info/SOURCES.txt
 nn.egg-info/dependency_links.txt
 nn.egg-info/top_level.txt
+nn/helpers/__init__.py
+nn/helpers/one_hot.py
 tests/__init__.py

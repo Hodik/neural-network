@@ -16,3 +16,9 @@ n.layers[2].set_activation(softmax)
 n.learn(x, y, learning_rate=0.01, epochs=100)
 
 print("Pred", from_one_hot(n.classify(x[0])[1]), "expected", y[0])
+
+n.save_model("model.pkl")
+
+
+new_model = NeuralNetwork.load_model("model.pkl")
+print("Pred", from_one_hot(new_model.classify(x[0])[1]), "expected", y[0])

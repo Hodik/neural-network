@@ -120,10 +120,7 @@ class CategorialCrossEntropyCost(Operation):
         Returns:
         - derivative: numpy array, derivative of Cross-Entropy Cost with respect to y_pred
         """
-        c = []
-        for i in range(len(pred)):
-            if pred[i] in [0, 1]:
-                c.append(0)
-            else:
-                c.append((-pred[i] + y[i]) / (pred[i] * (pred[i] - 1)))
-        return np.array(c)
+        c = np.zeros_like(pred)
+        mask = np.logical_and(pred != 0, pred != 1)
+        c[mask] = (-pred[mask] + y[mask]) / (pred[mask] * (pred[mask] - 1))
+        return c

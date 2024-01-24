@@ -1,8 +1,11 @@
 import numpy as np
+from typing import Self
 
 from .layer import Layer
 from .cost import MeanSquaredCost, CrossEntropyCost
 from .data import LayerLearnData, NetworkLearnData
+from .accuracy import calculate_accuracy_with_probabilities_one_hot, calculate_accuracy
+import pickle
 
 
 class NeuralNetwork:
@@ -28,6 +31,7 @@ class NeuralNetwork:
         for i in range(len(layer_sizes) - 1):
             self.layers.append(Layer(layer_sizes[i], layer_sizes[i + 1]))
         self.cost = cost
+        self.accuracy = calculate_accuracy
 
     def calculate_outputs(self, inputs):
         """
@@ -104,7 +108,10 @@ class NeuralNetwork:
         Returns:
             None
         """
-        for _ in range(epochs):
+        if y.ndim == 2:
+            self.accuracy = calculate_accuracy_with_probabilities_one_hot
+
+        for e in range(epochs):
             for i in range(len(x)):
                 learn_data = NetworkLearnData(self.layers)
                 self.update_gradients(x[i], y[i], learn_data)
@@ -113,10 +120,8 @@ class NeuralNetwork:
             yped = np.array(
                 [self.calculate_outputs(x[i]) for i in range(len(x))]
             ).round(2)
-            print("Predicted: ", yped, "expected: ", y)
             print(
-                "Cost: ",
-                self.cost.forward(yped, y),
+                f"Epoch {e + 1} of {epochs}, cost: {self.cost.forward(yped, y)}, accuracy: {self.accuracy(yped, y)}"
             )
 
     def evaluate(self, x, y):
@@ -143,3 +148,24 @@ class NeuralNetwork:
 
         accuracy = correct / total
         return f"Accuracy: {accuracy}"
+
+    def save_model(self, filepath):
+        """
+        Saves the trained model into a file.
+
+        Args:
+            filepath (str): The path to the file where the model will be saved.
+        """
+        with open(filepath, "wb") as file:
+            pickle.dump(self, file)
+
+    @staticmethod
+    def load_model(filepath) -> Self:
+        """
+        Loads a trained model from a file.
+
+        Args:
+            filepath (str): The path to the file where the model is saved.
+        """
+        with open(filepath, "rb") as file:
+            return pickle.load(file)
