@@ -77,6 +77,7 @@ class NeuralNetwork:
         output_layer.calculate_output_layer_node_derivatives(
             output_layer_data, expected, self.cost
         )
+        # print("Output layer data: ", output_layer_data)
         output_layer.update_gradients(output_layer_data)
         for i in range(output_layer_index - 1, -1, -1):
             layer_learn_data: LayerLearnData = learn_data.layer_data[i]
@@ -86,7 +87,9 @@ class NeuralNetwork:
                 self.layers[i + 1],
                 learn_data.layer_data[i + 1].node_values,
             )
+            # print("Hidden layer data: ", layer_learn_data)
             hidden_layer.update_gradients(layer_learn_data)
+            # print("Updated gradients: ", hidden_layer.gradW, hidden_layer.gradB)
 
     def learn(self, x, y, learning_rate=0.1, epochs=100):
         """
@@ -107,11 +110,13 @@ class NeuralNetwork:
                 self.update_gradients(x[i], y[i], learn_data)
             for l in self.layers:
                 l.apply_gradients(learning_rate=learning_rate)
-            yped = [self.calculate_outputs(x[i]) for i in range(len(x))]
+            yped = np.array(
+                [self.calculate_outputs(x[i]) for i in range(len(x))]
+            ).round(2)
             print("Predicted: ", yped, "expected: ", y)
             print(
                 "Cost: ",
-                np.sum(self.cost.forward(yped[i], y[i]) for i in range(len(x))),
+                self.cost.forward(yped, y),
             )
 
     def evaluate(self, x, y):

@@ -111,10 +111,8 @@ class tanh(Operation):
 
     @staticmethod
     def forward(x):
-        return (np.exp(2 * x) - 1) / (np.exp(2 * x) + 1)
+        return np.tanh(x)
 
     @staticmethod
     def backward(x):
-        e2 = np.exp(2 * x)
-        t = (e2 - 1) / (e2 + 1)
-        return 1 - t * t
+        return 1 - np.tanh(x) ** 2

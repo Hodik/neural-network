@@ -106,13 +106,7 @@ class CategorialCrossEntropyCost(Operation):
         Returns:
         - cost: float, Cross-Entropy Cost
         """
-        c = 0
-        for i in range(len(pred)):
-            if y[i] == 1:
-                c -= np.log(pred[i])
-            else:
-                c -= np.log(1 - pred[i])
-        return c
+        return -np.sum(y * np.log(pred + 1e-15))
 
     @staticmethod
     def backward(pred, y):

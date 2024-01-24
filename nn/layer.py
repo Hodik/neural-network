@@ -16,11 +16,11 @@ class Layer:
             n_out (int): Number of output nodes.
             activation (Operation, optional): Activation function to be used. Defaults to None.
         """
-        self.activation = activation or sigmoid
+        self.activation = activation or tanh
         self.n_in = n_in
         self.n_out = n_out
-        self.weights = np.random.randn(n_in, n_out) * np.sqrt(2 / n_in)
-        self.biases = np.random.randn(n_out) * np.sqrt(2 / n_in)
+        self.weights = np.random.randn(n_in, n_out) * np.sqrt(2.0 / n_in)
+        self.biases = np.zeros((n_out,))
         self.gradW = np.zeros(self.weights.shape)
         self.gradB = np.zeros(self.biases.shape)
 
@@ -69,9 +69,16 @@ class Layer:
         Returns:
             None
         """
+        # print(learn_data.activations, expected)
+        # print("cost_derivative", cost.backward(learn_data.activations, expected))
         cost_derivative = cost.backward(learn_data.activations, expected)
+        # print(
+        #     "activation_derivative",
+        #     self.activation.backward(learn_data.weighted_inputs),
+        # )
         activation_derivative = self.activation.backward(learn_data.weighted_inputs)
         learn_data.node_values = cost_derivative * activation_derivative
+        # print("node_values", learn_data.node_values)
 
     def calculate_hidden_layer_node_derivatives(
         self, learn_data: LayerLearnData, next_layer: Self, next_layer_values
@@ -87,11 +94,20 @@ class Layer:
         Returns:
             None
         """
+        # print("next_layer_values", next_layer_values)
         for i in range(len(learn_data.node_values)):
             v = 0
             for ni in range(len(next_layer_values)):
                 v += next_layer.weights[i][ni] * next_layer_values[ni]
+                # print("adding", next_layer.weights[i][ni] * next_layer_values[ni])
+            # print("v", v)
+
+            # print(
+            #     "activation_derivative",
+            #     self.activation.backward(learn_data.weighted_inputs)[i],
+            # )
             v *= self.activation.backward(learn_data.weighted_inputs)[i]
+            # print("v2", v)
 
             learn_data.node_values[i] = v
 
